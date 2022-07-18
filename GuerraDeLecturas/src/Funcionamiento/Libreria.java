@@ -130,10 +130,6 @@ public class Libreria extends Comic {
 			sql.append(connector).append("fechaLectura like'%" + comic.getFecha() + "%'");
 			connector = " AND ";
 		}
-		if (comic.getFecha().length() != 0) {
-			sql.append(connector).append("totalLeido like'%" + comic.getTotalLeido() + "%'");
-			connector = " AND ";
-		}
 
 		return sql.toString();
 	}
