@@ -226,10 +226,10 @@ public class IntroducirDatosController {
 				if (nav.alertaInsertar()) {
 					pantallaInformativa.setOpacity(1);
 					pantallaInformativa.setStyle("-fx-background-color: #A0F52D");
-					pantallaInformativa.setText("Comic introducido correctamente!" + "\nNombre del comic: " + datos[1]
-							+ "\nNumero: " + datos[2] + "\nEditorial: " + datos[3] + "\nFormato: " + datos[4]
-							+ "\nProcedencia: " + datos[5] + "\nFecha de lectura: " + datos[6] + "\nTotal de comics: "
-							+ datos[7]);
+					pantallaInformativa.setText("Comic introducido correctamente!" + "\nNombre del comic: " + datos[0]
+							+ "\nNumero: " + datos[1] + "\nEditorial: " + datos[2] + "\nFormato: " + datos[3]
+							+ "\nProcedencia: " + datos[4] + "\nFecha de lectura: " + datos[5] + "\nTotal de comics: "
+							+ datos[6]);
 					statement.close();
 				} else { // Si se cancela el borra del comic, saltara el siguiente mensaje.
 					pantallaInformativa.setOpacity(1);

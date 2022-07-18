@@ -28,7 +28,6 @@ import java.util.List;
 public class Libreria extends Comic {
 
 	public static List<Comic> listaComics = new ArrayList<>();
-	public static List<Comic> listaPosesion = new ArrayList<>();
 	public static List<Comic> listaCompleta = new ArrayList<>();
 	public static List<Comic> filtroComics = new ArrayList<>();
 
@@ -52,10 +51,10 @@ public class Libreria extends Comic {
 		ResultSet rs;
 
 		rs = ConexionBBDD.getComic(sentenciaSql);
-		listaPosesion = listaDatos(rs);
+		listaCompleta = listaDatos(rs);
 
-		comic = new Comic[listaPosesion.size()];
-		comic = listaPosesion.toArray(comic);
+		comic = new Comic[listaCompleta.size()];
+		comic = listaCompleta.toArray(comic);
 
 		return comic;
 	}
@@ -228,7 +227,7 @@ public class Libreria extends Comic {
 	 */
 	public void reiniciarBBDD() {
 		filtroComics.clear();
-		listaPosesion.clear();
+		listaCompleta.clear();
 	}
 
 	/**

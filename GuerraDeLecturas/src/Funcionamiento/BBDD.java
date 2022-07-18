@@ -61,7 +61,7 @@ public class BBDD extends Excel {
 	 * @return
 	 */
 	public boolean importarCSV(File fichero) {
-		String sql = "INSERT INTO guerraDeLectura(ID, nomComic, numComic, nomEditorial, Formato,Procedencia, fechaLectura, totalLeido)"
+		String sql = "INSERT INTO guerraDeLectura(ID, nomComic, numComic, nomEditorial, formato,procedencia, fechaLectura, totalLeido)"
 				+ " values (?,?,?,?,?,?,?,?)";
 
 		try {
@@ -191,7 +191,7 @@ public class BBDD extends Excel {
 		Workbook libro;
 		String encabezado;
 
-		String[] encabezados = { "ID", "nomComic", "numComic", "nomEditorial", "Formato", "Procedencia", "fechaLectura",
+		String[] encabezados = { "ID", "nomComic", "numComic", "nomEditorial", "formato", "procedencia", "fechaLectura",
 				"totalLeido" };
 		int indiceFila = 0;
 

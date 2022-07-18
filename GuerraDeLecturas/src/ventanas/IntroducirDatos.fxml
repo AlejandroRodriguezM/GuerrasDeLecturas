@@ -28,6 +28,8 @@
       <TextField fx:id="editorialAni" layoutX="432.0" layoutY="81.0" />
       <TextField fx:id="formatoAni" layoutX="432.0" layoutY="113.0" />
       <TextField fx:id="procedenciaAni" layoutX="432.0" layoutY="145.0" />
+      <TextField fx:id="fechaLecturaAni" layoutX="432.0" layoutY="180.0" prefHeight="25.0" prefWidth="149.0" />
+      <TextField fx:id="totalComicsAni" layoutX="432.0" layoutY="213.0" />
       <Button fx:id="botonIntroducir" layoutX="506.0" layoutY="258.0" mnemonicParsing="false" onAction="#agregarDatos" prefHeight="42.0" prefWidth="113.0" text="Añadir Comic" />
       <Button fx:id="botonLimpiarComic" layoutX="321.0" layoutY="258.0" mnemonicParsing="false" onAction="#limpiarDatos" prefHeight="42.0" prefWidth="93.0" text="Limpiar datos" />
       <Button fx:id="botonVolver" layoutX="860.0" layoutY="258.0" mnemonicParsing="false" onAction="#volverMenu" prefHeight="42.0" prefWidth="93.0" text="Volver" />
@@ -60,8 +62,6 @@
       <TextField fx:id="nombreParametro" layoutX="136.0" layoutY="48.0" prefHeight="25.0" prefWidth="138.0" />
       <Label layoutX="18.0" layoutY="51.0" style="-fx-background-color: white;" text="Nombre" />
       <Label layoutX="321.0" layoutY="183.0" prefHeight="19.0" prefWidth="102.0" style="-fx-background-color: white;" text="Fecha de Lectura" />
-      <TextField fx:id="fechaLecturaAni" layoutX="432.0" layoutY="180.0" prefHeight="25.0" prefWidth="149.0" />
-      <TextField fx:id="totalComicsAni" layoutX="432.0" layoutY="213.0" />
       <Label layoutX="323.0" layoutY="217.0" style="-fx-background-color: white;" text="Total de comics" />
       <Label layoutX="17.0" layoutY="216.0" prefHeight="19.0" prefWidth="102.0" style="-fx-background-color: white;" text="Fecha de Lectura">
          <font>
