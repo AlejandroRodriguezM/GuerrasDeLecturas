@@ -1,18 +1,12 @@
 package Funcionamiento;
 
 /**
- * Programa que permite el acceso a una base de datos de comics. Mediante JDBC con mySql
- * Las ventanas graficas se realizan con JavaFX.
- * El programa permite:
- *  - Conectarse a la base de datos.
- *  - Ver la base de datos completa o parcial segun parametros introducidos.
- *  - Guardar el contenido de la base de datos en un fichero .txt y .xlsx,CSV
- *  - Copia de seguridad de la base de datos en formato .sql
- *  - Introducir comics a la base de datos.
- *  - Modificar comics de la base de datos.
- *  - Eliminar comics de la base de datos(Solamente cambia el estado de "En posesion" a "Vendido". Los datos siguen en la bbdd pero estos no los muestran el programa
- *  - Ver frases de personajes de comics
- *  - Opcion de escoger algo para leer de forma aleatoria.
+ * Programa que permite el acceso a una base de datos de comics. Mediante JDBC
+ * con mySql Las ventanas graficas se realizan con JavaFX. El programa permite:
+ * - Conectarse a la base de datos. - Ver la base de datos completa o parcial
+ * segun parametros introducidos. - Guardar el contenido de la base de datos en
+ * un fichero .txt y .xlsx,CSV - Copia de seguridad de la base de datos en
+ * formato .sql - Introducir comics a la base de datos.
  *
  *  Esta clase permite realizar operaciones con la libreria de comics de la base de datos.
  *
@@ -48,7 +42,7 @@ public class Libreria extends Comic {
 	 */
 	public Comic[] verLibreria() {
 
-		String sentenciaSql = "SELECT * from comicsbbdd where estado = 'En posesion'";
+		String sentenciaSql = "SELECT * from guerraDeLectura";
 
 		Comic comic[] = null;
 
@@ -63,28 +57,6 @@ public class Libreria extends Comic {
 		comic = new Comic[listaPosesion.size()];
 		comic = listaPosesion.toArray(comic);
 
-		return comic;
-	}
-
-	/**
-	 * Devuelve todos los datos de la base de datos.
-	 *
-	 * @return
-	 */
-	public Comic[] verLibreriaCompleta() {
-
-		String sentenciaSql = "SELECT * from comicsbbdd";
-
-		Comic comic[] = null;
-
-		ordenarBBDD();
-		reiniciarBBDD();
-
-		ResultSet rs;
-		rs = ConexionBBDD.getComic(sentenciaSql);
-		listaCompleta = listaDatos(rs);
-		comic = new Comic[listaCompleta.size()];
-		comic = listaCompleta.toArray(comic);
 		return comic;
 	}
 
@@ -120,35 +92,27 @@ public class Libreria extends Comic {
 	}
 
 	/**
-	 * Funcion que segun los datos introducir mediante parametros, concatenara las siguientes cadenas de texto. Sirve para hacer busqueda en una base de datos
+	 * Funcion que segun los datos introducir mediante parametros, concatenara las
+	 * siguientes cadenas de texto. Sirve para hacer busqueda en una base de datos
+	 * 
 	 * @param datos
 	 * @return
 	 */
 	public String datosConcatenados(Comic comic) {
-		String connector = " AND ";
+		String connector = " WHERE ";
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT * FROM comicsbbdd where estado = 'En posesion'");
+		sql.append("SELECT * FROM guerraDeLectura ");
 
 		if (comic.getID().length() != 0) {
-
 			sql.append(connector).append("ID = " + comic.getID());
 			connector = " AND ";
 		}
 		if (comic.getNombre().length() != 0) {
-
 			sql.append(connector).append("nomComic like'%" + comic.getNombre() + "%'");
 			connector = " AND ";
 		}
 		if (comic.getNumero().length() != 0) {
 			sql.append(connector).append("numComic = " + comic.getNumero());
-			connector = " AND ";
-		}
-		if (comic.getVariante().length() != 0) {
-			sql.append(connector).append("nomVariante like'%" + comic.getVariante() + "%'");
-			connector = " AND ";
-		}
-		if (comic.getFirma().length() != 0) {
-			sql.append(connector).append("firma like'%" + comic.getFirma() + "%'");
 			connector = " AND ";
 		}
 		if (comic.getEditorial().length() != 0) {
@@ -164,15 +128,11 @@ public class Libreria extends Comic {
 			connector = " AND ";
 		}
 		if (comic.getFecha().length() != 0) {
-			sql.append(connector).append("anioPubli like'%" + comic.getFecha() + "%'");
+			sql.append(connector).append("fechaLectura like'%" + comic.getFecha() + "%'");
 			connector = " AND ";
 		}
-		if (comic.getGuionista().length() != 0) {
-			sql.append(connector).append("nomGuionista like'%" + comic.getGuionista() + "%'");
-			connector = " AND ";
-		}
-		if (comic.getDibujante().length() != 0) {
-			sql.append(connector).append("nomDibujante like'%" + comic.getDibujante() + "%'");
+		if (comic.getFecha().length() != 0) {
+			sql.append(connector).append("totalLeido like'%" + comic.getTotalLeido() + "%'");
 			connector = " AND ";
 		}
 
@@ -181,13 +141,14 @@ public class Libreria extends Comic {
 
 	/**
 	 * Funcion que devuelve un comic cuya ID este como parametro de busqueda
+	 * 
 	 * @param id
 	 * @return
 	 */
 	public Comic comicDatos(String id) {
 		Comic comic = new Comic();
 
-		String sentenciaSQL = "select * from comicsbbdd where ID = " + id;
+		String sentenciaSQL = "select * from guerraDeLectura where ID = " + id;
 
 		ResultSet rs;
 
@@ -198,7 +159,8 @@ public class Libreria extends Comic {
 	}
 
 	/**
-	 *  Devuelve una lista con todos los datos de los comics de la base de datos
+	 * Devuelve una lista con todos los datos de los comics de la base de datos
+	 * 
 	 * @param rs
 	 * @return
 	 */
@@ -211,19 +173,14 @@ public class Libreria extends Comic {
 					this.ID = rs.getString("ID");
 					this.nombre = rs.getString("nomComic");
 					this.numero = rs.getString("numComic");
-					this.variante = rs.getString("nomVariante");
-					this.firma = rs.getString("firma");
 					this.editorial = rs.getString("nomEditorial");
 					this.formato = rs.getString("formato");
 					this.procedencia = rs.getString("procedencia");
-					this.fecha = rs.getString("anioPubli");
-					this.guionista = rs.getString("nomGuionista");
-					this.dibujante = rs.getString("nomDibujante");
-					this.estado = rs.getString("estado");
+					this.fecha = rs.getString("fechaLectura");
+					this.totalLeido = rs.getString("totalLeido");
 
-					listaComics.add(new Comic(this.ID, this.nombre, this.numero, this.variante, this.firma,
-							this.editorial, this.formato, this.procedencia, this.fecha, this.guionista, this.dibujante,
-							this.estado));
+					listaComics.add(new Comic(this.ID, this.nombre, this.numero, this.editorial, this.formato,
+							this.procedencia, this.fecha, this.totalLeido));
 
 				} while (rs.next());
 			}
@@ -235,6 +192,7 @@ public class Libreria extends Comic {
 
 	/**
 	 * Devuelve solamente 1 comics de la base de datos.
+	 * 
 	 * @param rs
 	 * @return
 	 */
@@ -248,18 +206,14 @@ public class Libreria extends Comic {
 					this.ID = rs.getString("ID");
 					this.nombre = rs.getString("nomComic");
 					this.numero = rs.getString("numComic");
-					this.variante = rs.getString("nomVariante");
-					this.firma = rs.getString("firma");
 					this.editorial = rs.getString("nomEditorial");
 					this.formato = rs.getString("formato");
 					this.procedencia = rs.getString("procedencia");
-					this.fecha = rs.getString("anioPubli");
-					this.guionista = rs.getString("nomGuionista");
-					this.dibujante = rs.getString("nomDibujante");
-					this.estado = rs.getString("estado");
+					this.fecha = rs.getString("fechaLectura");
+					this.totalLeido = rs.getString("totalLeido");
 
-					comic = new Comic(this.ID, this.nombre, this.numero, this.variante, this.firma, this.editorial,
-							this.formato, this.procedencia, this.fecha, this.guionista, this.dibujante, this.estado);
+					comic = new Comic(this.ID, this.nombre, this.numero, this.editorial, this.formato, this.procedencia,
+							this.fecha, this.totalLeido);
 
 				} while (rs.next());
 			}
@@ -281,7 +235,7 @@ public class Libreria extends Comic {
 	 * Ordena el contenido de la base de datos por nombre del comic.
 	 */
 	public void ordenarBBDD() {
-		String sql = "ALTER TABLE comicsbbdd ORDER BY nomComic;";
+		String sql = "ALTER TABLE guerraDeLectura ORDER BY nomComic;";
 		Statement st;
 		try {
 			st = conn.createStatement();

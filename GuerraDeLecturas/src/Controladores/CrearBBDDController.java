@@ -1,18 +1,12 @@
 package Controladores;
 
 /**
- * Programa que permite el acceso a una base de datos de comics. Mediante JDBC con mySql
- * Las ventanas graficas se realizan con JavaFX.
- * El programa permite:
- *  - Conectarse a la base de datos.
- *  - Ver la base de datos completa o parcial segun parametros introducidos.
- *  - Guardar el contenido de la base de datos en un fichero .txt y .xlsx,CSV
- *  - Copia de seguridad de la base de datos en formato .sql
- *  - Introducir comics a la base de datos.
- *  - Modificar comics de la base de datos.
- *  - Eliminar comics de la base de datos(Solamente cambia el estado de "En posesion" a "Vendido". Los datos siguen en la bbdd pero estos no los muestran el programa
- *  - Ver frases de personajes de comics
- *  - Opcion de escoger algo para leer de forma aleatoria.
+ * Programa que permite el acceso a una base de datos de comics. Mediante JDBC
+ * con mySql Las ventanas graficas se realizan con JavaFX. El programa permite:
+ * - Conectarse a la base de datos. - Ver la base de datos completa o parcial
+ * segun parametros introducidos. - Guardar el contenido de la base de datos en
+ * un fichero .txt y .xlsx,CSV - Copia de seguridad de la base de datos en
+ * formato .sql - Introducir comics a la base de datos.
  *
  *  Esta clase permite acceder a la ventana de creacion de bases de datos
  *
@@ -71,7 +65,6 @@ public class CrearBBDDController {
 	private NavegacionVentanas nav = new NavegacionVentanas();
 
 	private final String DB_HOST = "localhost";
-
 
 	/**
 	 * Metodo que permite llamada a metodos donde se crean la bbdd y las tablas y
@@ -155,15 +148,13 @@ public class CrearBBDDController {
 	public void createTable() {
 
 		String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + puertoBBDD.getText() + "/" + nombreBBDD.getText()
-		+ "?serverTimezone=UTC";
-		
-		String sentenciaSQL = "CREATE TABLE " + " comicsbbdd ( ID int NOT NULL AUTO_INCREMENT,"
+				+ "?serverTimezone=UTC";
+
+		String sentenciaSQL = "CREATE TABLE " + " guerraDeLectura ( ID int NOT NULL AUTO_INCREMENT,"
 				+ "nomComic varchar(150) NOT NULL," + "numComic varchar(150) NOT NULL,"
-				+ "nomVariante varchar(150) NOT NULL," + "Firma varchar(150) NOT NULL,"
-				+ "nomEditorial varchar(150) NOT NULL," + "Formato varchar(150) NOT NULL,"
-				+ "Procedencia varchar(150) NOT NULL," + "anioPubli varchar(150) NOT NULL,"
-				+ "nomGuionista varchar(300) NOT NULL," + "nomDibujante varchar(300) NOT NULL,"
-				+ "estado enum('En posesion','Vendido') DEFAULT 'En posesion'" + ",PRIMARY KEY (`ID`)) "
+				+ "nomEditorial varchar(150) NOT NULL," + "formato varchar(150) NOT NULL,"
+				+ "procedencia varchar(150) NOT NULL," + "fechaLectura varchar(150) NOT NULL,"
+				+ "totalLeido varchar(300) NOT NULL," + "PRIMARY KEY (`ID`)) "
 				+ "ENGINE=InnoDB AUTO_INCREMENT=320 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
 
 		Statement statement1;
@@ -173,7 +164,7 @@ public class CrearBBDDController {
 			Connection connection = DriverManager.getConnection(DB_URL, userBBDD.getText(), passBBDD.getText());
 			statement1 = connection.createStatement();
 			statement1.executeUpdate(sentenciaSQL);
-			statement2 = connection.prepareStatement("alter table comicsbbdd AUTO_INCREMENT = 1;");
+			statement2 = connection.prepareStatement("alter table guerraDeLectura AUTO_INCREMENT = 1;");
 			statement2.executeUpdate();
 
 		} catch (SQLException e) {
@@ -185,10 +176,10 @@ public class CrearBBDDController {
 	 * Funcion que realiza la creacion de procedimientos almacenados.
 	 */
 	public void createProcedure() {
-		
+
 		String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + puertoBBDD.getText() + "/" + nombreBBDD.getText()
-		+ "?serverTimezone=UTC";
-		
+				+ "?serverTimezone=UTC";
+
 		try {
 			Connection connection = DriverManager.getConnection(DB_URL, userBBDD.getText(), passBBDD.getText());
 			Statement statement;
@@ -196,19 +187,19 @@ public class CrearBBDDController {
 			statement = connection.createStatement();
 
 			// Creacion de diferentes procesos almacenados
-			statement.execute("CREATE PROCEDURE numeroGrapas()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM comicsbbdd\n"
+			statement.execute("CREATE PROCEDURE numeroGrapas()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura\n"
 					+ "WHERE Formato = 'Grapa';\n" + "END");
 
-			statement.execute("CREATE PROCEDURE numeroTomos()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM comicsbbdd\n"
+			statement.execute("CREATE PROCEDURE numeroTomos()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura\n"
 					+ "WHERE Formato = 'Tomo';\n" + "END");
 
-			statement.execute("CREATE PROCEDURE numeroUSA()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM comicsbbdd\n"
+			statement.execute("CREATE PROCEDURE numeroUSA()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura\n"
 					+ "WHERE Procedencia = 'USA';\n" + "END");
 
-			statement.execute("CREATE PROCEDURE numeroSpain()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM comicsbbdd\n"
-					+ "WHERE Procedencia = 'España';\n" + "END");
+			statement.execute("CREATE PROCEDURE numeroSpain()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura\n"
+					+ "WHERE Procedencia = 'Espaï¿½a';\n" + "END");
 
-			statement.execute("CREATE PROCEDURE total()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM comicsbbdd;\n" + "END");
+			statement.execute("CREATE PROCEDURE total()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura;\n" + "END");
 
 		} catch (SQLException e) {
 			nav.alertaException(e.toString());

@@ -1,18 +1,12 @@
 package Funcionamiento;
 
 /**
- * Programa que permite el acceso a una base de datos de comics. Mediante JDBC con mySql
- * Las ventanas graficas se realizan con JavaFX.
- * El programa permite:
- *  - Conectarse a la base de datos.
- *  - Ver la base de datos completa o parcial segun parametros introducidos.
- *  - Guardar el contenido de la base de datos en un fichero .txt y .xlsx,CSV
- *  - Copia de seguridad de la base de datos en formato .sql
- *  - Introducir comics a la base de datos.
- *  - Modificar comics de la base de datos.
- *  - Eliminar comics de la base de datos(Solamente cambia el estado de "En posesion" a "Vendido". Los datos siguen en la bbdd pero estos no los muestran el programa
- *  - Ver frases de personajes de comics
- *  - Opcion de escoger algo para leer de forma aleatoria.
+ * Programa que permite el acceso a una base de datos de comics. Mediante JDBC
+ * con mySql Las ventanas graficas se realizan con JavaFX. El programa permite:
+ * - Conectarse a la base de datos. - Ver la base de datos completa o parcial
+ * segun parametros introducidos. - Guardar el contenido de la base de datos en
+ * un fichero .txt y .xlsx,CSV - Copia de seguridad de la base de datos en
+ * formato .sql - Introducir comics a la base de datos.
  *
  *  Esta clase permite acceder a la base de datos introduciendo los diferentes datos que nos pide.
  *
@@ -60,7 +54,7 @@ public class NavegacionVentanas {
 			// Creo la scene y el stage
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
-			stage.setTitle("Aplicacion bbdd comics"); // Titulo de la aplicacion.
+			stage.setTitle("Guerra de lecturas!"); // Titulo de la aplicacion.
 
 			stage.getIcons().add(new Image("/Icono/icon2.png"));
 
@@ -131,7 +125,7 @@ public class NavegacionVentanas {
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setResizable(false);
-			stage.setTitle("Introducir datos"); // Titulo de la aplicacion.
+			stage.setTitle("Guerra de lecturas!"); // Titulo de la aplicacion.
 			stage.getIcons().add(new Image("/Icono/icon2.png"));
 
 			// Asocio el stage con el scene

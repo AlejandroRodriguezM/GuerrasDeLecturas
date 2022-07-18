@@ -1,18 +1,12 @@
 package Funcionamiento;
 
 /**
- * Programa que permite el acceso a una base de datos de comics. Mediante JDBC con mySql
- * Las ventanas graficas se realizan con JavaFX.
- * El programa permite:
- *  - Conectarse a la base de datos.
- *  - Ver la base de datos completa o parcial segun parametros introducidos.
- *  - Guardar el contenido de la base de datos en un fichero .txt y .xlsx,CSV
- *  - Copia de seguridad de la base de datos en formato .sql
- *  - Introducir comics a la base de datos.
- *  - Modificar comics de la base de datos.
- *  - Eliminar comics de la base de datos(Solamente cambia el estado de "En posesion" a "Vendido". Los datos siguen en la bbdd pero estos no los muestran el programa
- *  - Ver frases de personajes de comics
- *  - Opcion de escoger algo para leer de forma aleatoria.
+ * Programa que permite el acceso a una base de datos de comics. Mediante JDBC
+ * con mySql Las ventanas graficas se realizan con JavaFX. El programa permite:
+ * - Conectarse a la base de datos. - Ver la base de datos completa o parcial
+ * segun parametros introducidos. - Guardar el contenido de la base de datos en
+ * un fichero .txt y .xlsx,CSV - Copia de seguridad de la base de datos en
+ * formato .sql - Introducir comics a la base de datos.
  *
  *  Esta clase permite realizar diferentes operaciones pertinentes a la base de datos
  *
@@ -62,12 +56,13 @@ public class BBDD extends Excel {
 
 	/**
 	 * Funcion que permite importar ficheros CSV a la base de datos.
+	 * 
 	 * @param fichero
 	 * @return
 	 */
 	public boolean importarCSV(File fichero) {
-		String sql = "INSERT INTO comicsbbdd(ID,nomComic,numComic,nomVariante,Firma,nomEditorial,Formato,Procedencia,anioPubli,nomGuionista,nomDibujante,estado)"
-				+ " values (?,?,?,?,?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO guerraDeLectura(ID, nomComic, numComic, nomEditorial, Formato,Procedencia, fechaLectura, totalLeido)"
+				+ " values (?,?,?,?,?,?,?,?)";
 
 		try {
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -84,28 +79,20 @@ public class BBDD extends Excel {
 				String id = Integer.toString(j);
 				String nombre = data[1];
 				String numero = data[2];
-				String variante = data[3];
-				String firma = data[4];
-				String editorial = data[5];
-				String formato = data[6];
-				String procedencia = data[7];
-				String fecha = data[8];
-				String guionista = data[9];
-				String dibujante = data[10];
-				String estado = data[11];
+				String editorial = data[3];
+				String formato = data[4];
+				String procedencia = data[5];
+				String fechaLectura = data[6];
+				String totalLeido = data[7];
 
 				statement.setString(1, id);
 				statement.setString(2, nombre);
 				statement.setString(3, numero);
-				statement.setString(4, variante);
-				statement.setString(5, firma);
-				statement.setString(6, editorial);
-				statement.setString(7, formato);
-				statement.setString(8, procedencia);
-				statement.setString(9, fecha);
-				statement.setString(10, guionista);
-				statement.setString(11, dibujante);
-				statement.setString(12, estado);
+				statement.setString(4, editorial);
+				statement.setString(5, formato);
+				statement.setString(6, procedencia);
+				statement.setString(7, fechaLectura);
+				statement.setString(8, totalLeido);
 
 				statement.addBatch();
 
@@ -126,10 +113,11 @@ public class BBDD extends Excel {
 
 	/**
 	 * Funcion que permite contar cuantas filas hay en la base de datos.
+	 * 
 	 * @return
 	 */
 	public int countRows() {
-		String sql = "SELECT COUNT(*) FROM comicsbbdd";
+		String sql = "SELECT COUNT(*) FROM guerraDeLectura";
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
@@ -147,12 +135,13 @@ public class BBDD extends Excel {
 
 	/**
 	 * Funcion que permite borrar el contenido de la tabla de la base de datos.
+	 * 
 	 * @return
 	 */
 	public boolean borrarContenidoTabla() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-		stage.getIcons().add(new Image("/Icono/exit.png")); 
+		stage.getIcons().add(new Image("/Icono/exit.png"));
 		alert.setTitle("Borrando . . .");
 		alert.setHeaderText("Estas a punto de borrar el contenido.");
 		alert.setContentText("Estas seguro que quieres borrarlo todo?");
@@ -167,8 +156,9 @@ public class BBDD extends Excel {
 			alert.setContentText("De verdad de verdad quieres borrarlo todo?");
 			if (alert.showAndWait().get() == ButtonType.OK) {
 				try {
-					PreparedStatement statement1 = conn.prepareStatement("delete from comicsbbdd");
-					PreparedStatement statement2 = conn.prepareStatement("alter table comicsbbdd AUTO_INCREMENT = 1;");
+					PreparedStatement statement1 = conn.prepareStatement("delete from guerraDeLectura");
+					PreparedStatement statement2 = conn
+							.prepareStatement("alter table guerraDeLectura AUTO_INCREMENT = 1;");
 
 					statement1.executeUpdate();
 					statement2.executeUpdate();
@@ -188,6 +178,7 @@ public class BBDD extends Excel {
 
 	/**
 	 * Funcion que permite crear tanto un fichero XLSX cini un fichero CSV
+	 * 
 	 * @param fichero
 	 * @return
 	 */
@@ -200,13 +191,13 @@ public class BBDD extends Excel {
 		Workbook libro;
 		String encabezado;
 
-		String[] encabezados = { "ID", "nomComic", "numComic", "nomVariante", "Firma", "nomEditorial", "Formato",
-				"Procedencia", "anioPubli", "nomGuionista", "nomDibujante", "estado" };
+		String[] encabezados = { "ID", "nomComic", "numComic", "nomEditorial", "Formato", "Procedencia", "fechaLectura",
+				"totalLeido" };
 		int indiceFila = 0;
 
 		try {
 			fichero.createNewFile();
-			libreria.verLibreriaCompleta();
+			libreria.verLibreria();
 			List<Comic> listaComics = Libreria.listaCompleta;
 
 			libro = new XSSFWorkbook();
@@ -227,15 +218,11 @@ public class BBDD extends Excel {
 				fila.createCell(0).setCellValue("");
 				fila.createCell(1).setCellValue(comic.getNombre());
 				fila.createCell(2).setCellValue(comic.getNumero());
-				fila.createCell(3).setCellValue(comic.getVariante());
-				fila.createCell(4).setCellValue(comic.getFirma());
-				fila.createCell(5).setCellValue(comic.getEditorial());
-				fila.createCell(6).setCellValue(comic.getFormato());
-				fila.createCell(7).setCellValue(comic.getProcedencia());
-				fila.createCell(8).setCellValue(comic.getFecha());
-				fila.createCell(9).setCellValue(comic.getGuionista());
-				fila.createCell(10).setCellValue(comic.getDibujante());
-				fila.createCell(11).setCellValue(comic.getEstado());
+				fila.createCell(3).setCellValue(comic.getEditorial());
+				fila.createCell(4).setCellValue(comic.getFormato());
+				fila.createCell(5).setCellValue(comic.getProcedencia());
+				fila.createCell(6).setCellValue(comic.getFecha());
+				fila.createCell(7).setCellValue(comic.getTotalLeido());
 
 				indiceFila++;
 			}
@@ -261,6 +248,7 @@ public class BBDD extends Excel {
 
 	/**
 	 * Funcion que permite crear un fichero CSV
+	 * 
 	 * @param fichero
 	 */
 	public void createCSV(File fichero) {
@@ -327,9 +315,10 @@ public class BBDD extends Excel {
 	//// FUNCIONES CREACION FICHEROS//
 	/////////////////////////////////
 
-
 	/**
-	 * Funcion que crea una copia de seguridad de la base de datos siempre que el sistema operativo sea Linux
+	 * Funcion que crea una copia de seguridad de la base de datos siempre que el
+	 * sistema operativo sea Linux
+	 * 
 	 * @param fichero
 	 */
 	public void backupLinux(File fichero) {
@@ -348,7 +337,9 @@ public class BBDD extends Excel {
 	}
 
 	/**
-	 * Funcion que crea una copia de seguridad de la base de datos siempre que el sistema operativo sea Windows
+	 * Funcion que crea una copia de seguridad de la base de datos siempre que el
+	 * sistema operativo sea Windows
+	 * 
 	 * @param fichero
 	 */
 	public void backupWindows(File fichero) {

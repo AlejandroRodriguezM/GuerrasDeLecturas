@@ -1,18 +1,12 @@
 package Controladores;
 
 /**
- * Programa que permite el acceso a una base de datos de comics. Mediante JDBC con mySql
- * Las ventanas graficas se realizan con JavaFX.
- * El programa permite:
- *  - Conectarse a la base de datos.
- *  - Ver la base de datos completa o parcial segun parametros introducidos.
- *  - Guardar el contenido de la base de datos en un fichero .txt y .xlsx,CSV
- *  - Copia de seguridad de la base de datos en formato .sql
- *  - Introducir comics a la base de datos.
- *  - Modificar comics de la base de datos.
- *  - Eliminar comics de la base de datos(Solamente cambia el estado de "En posesion" a "Vendido". Los datos siguen en la bbdd pero estos no los muestran el programa
- *  - Ver frases de personajes de comics
- *  - Opcion de escoger algo para leer de forma aleatoria.
+ * Programa que permite el acceso a una base de datos de comics. Mediante JDBC
+ * con mySql Las ventanas graficas se realizan con JavaFX. El programa permite:
+ * - Conectarse a la base de datos. - Ver la base de datos completa o parcial
+ * segun parametros introducidos. - Guardar el contenido de la base de datos en
+ * un fichero .txt y .xlsx,CSV - Copia de seguridad de la base de datos en
+ * formato .sql - Introducir comics a la base de datos.
  *
  *  Esta clase permite acceder al menu principal donde se puede viajar a diferentes ventanas, etc.
  *
@@ -50,7 +44,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class MenuPrincipalController {
-
 
 	@FXML
 	private Button botonLimpiar;
@@ -92,7 +85,7 @@ public class MenuPrincipalController {
 	private Button botonCompra;
 
 	@FXML
-	private TextField anioPublicacion;
+	private TextField fechaLectura;
 
 	@FXML
 	private TextField numeroID;
@@ -113,43 +106,31 @@ public class MenuPrincipalController {
 	private TextField nombreProcedencia;
 
 	@FXML
-	private TextField nombreVariante;
-
-	@FXML
 	private TextField numeroComic;
-
-	@FXML
-	private TableColumn<Comic, String> dibujante;
-
-	@FXML
-	private TableColumn<Comic, String> editorial;
-
-	@FXML
-	private TableColumn<Comic, String> fecha;
-
-	@FXML
-	private TableColumn<Comic, String> firma;
-
-	@FXML
-	private TableColumn<Comic, String> formato;
-
-	@FXML
-	private TableColumn<Comic, String> guionista;
-
-	@FXML
-	private TableColumn<Comic, String> nombre;
 
 	@FXML
 	private TableColumn<Comic, String> ID;
 
 	@FXML
+	private TableColumn<Comic, String> nombre;
+	
+	@FXML
 	private TableColumn<Comic, String> numero;
+	
+	@FXML
+	private TableColumn<Comic, String> editorial;
+	
+	@FXML
+	private TableColumn<Comic, String> formato;
 
 	@FXML
 	private TableColumn<Comic, String> procedencia;
-
+	
 	@FXML
-	private TableColumn<Comic, String> variante;
+	private TableColumn<Comic, String> fecha;
+	
+	@FXML
+	private TableColumn<Comic, String> totalLeido;
 
 	@FXML
 	public TableView<Comic> tablaBBDD;
@@ -184,17 +165,6 @@ public class MenuPrincipalController {
 
 		Stage myStage = (Stage) this.BotonVentanaAniadir.getScene().getWindow();
 		myStage.close();
-	}
-
-
-	/**
-	 * Muestra en un textArea diferentes frases random de personajes de los comics.
-	 * @param event
-	 */
-	@FXML
-	void fraseRandom(ActionEvent event) {
-		prontFrases.setOpacity(1);
-		prontFrases.setText(Comic.frasesComics());
 	}
 
 	/**
@@ -278,12 +248,10 @@ public class MenuPrincipalController {
 		numeroID.setText("");
 		nombreComic.setText("");
 		numeroComic.setText("");
-		nombreVariante.setText("");
 		nombreEditorial.setText("");
 		nombreFormato.setText("");
 		procedencia.setText("");
-		anioPublicacion.setText("");
-		nombreGuionista.setText("");
+		fechaLectura.setText("");
 		prontInfo.setText(null);
 		prontFrases.setText(null);
 		prontInfo.setOpacity(0);
@@ -479,12 +447,11 @@ public class MenuPrincipalController {
 		ID.setCellValueFactory(new PropertyValueFactory<>("ID"));
 		nombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 		numero.setCellValueFactory(new PropertyValueFactory<>("numero"));
-		variante.setCellValueFactory(new PropertyValueFactory<>("variante"));
 		editorial.setCellValueFactory(new PropertyValueFactory<>("editorial"));
 		formato.setCellValueFactory(new PropertyValueFactory<>("formato"));
 		procedencia.setCellValueFactory(new PropertyValueFactory<>("procedencia"));
 		fecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-		guionista.setCellValueFactory(new PropertyValueFactory<>("guionista"));
+		totalLeido.setCellValueFactory(new PropertyValueFactory<>("totalLeido"));
 	}
 
 	/////////////////////////////////
@@ -584,7 +551,7 @@ public class MenuPrincipalController {
 		String datosComic[] = camposComic();
 
 		Comic comic = new Comic(datosComic[0], datosComic[1], datosComic[2], datosComic[3], datosComic[4],
-				datosComic[5], datosComic[6], datosComic[7], datosComic[8], datosComic[9], datosComic[10], "");
+				datosComic[5], datosComic[6], "");
 
 		tablaBBDD(libreriaParametro(comic));
 	}
@@ -625,7 +592,7 @@ public class MenuPrincipalController {
 	 * @return
 	 */
 	public List<Comic> libreriaCompleta() {
-		List<Comic> listComic = FXCollections.observableArrayList(libreria.verLibreriaCompleta());
+		List<Comic> listComic = FXCollections.observableArrayList(libreria.verLibreria());
 
 		if (listComic.size() == 0) {
 			prontInfo.setStyle("-fx-background-color: #F53636");
@@ -641,8 +608,7 @@ public class MenuPrincipalController {
 	 */
 	@SuppressWarnings("unchecked")
 	public void tablaBBDD(List<Comic> listaComic) {
-		tablaBBDD.getColumns().setAll(ID, nombre, numero, variante, firma, editorial, formato, procedencia, fecha,
-				guionista, dibujante);
+		tablaBBDD.getColumns().setAll(ID, nombre, numero, editorial, formato, procedencia, fecha, totalLeido);
 		tablaBBDD.getItems().setAll(listaComic);
 	}
 
@@ -651,7 +617,7 @@ public class MenuPrincipalController {
 	 * @return
 	 */
 	public String[] camposComic() {
-		String campos[] = new String[11];
+		String campos[] = new String[7];
 
 		campos[0] = numeroID.getText();
 
@@ -659,17 +625,13 @@ public class MenuPrincipalController {
 
 		campos[2] = numeroComic.getText();
 
-		campos[3] = nombreVariante.getText();
+		campos[3] = nombreEditorial.getText();
 
-		campos[5] = nombreEditorial.getText();
+		campos[4] = nombreFormato.getText();
 
-		campos[6] = nombreFormato.getText();
+		campos[5] = nombreProcedencia.getText();
 
-		campos[7] = nombreProcedencia.getText();
-
-		campos[8] = anioPublicacion.getText();
-
-		campos[9] = nombreGuionista.getText();
+		campos[6] = fechaLectura.getText();
 
 		return campos;
 	}
@@ -682,10 +644,9 @@ public class MenuPrincipalController {
 	 * Vuelve al menu inicial de conexion de la base de datos.
 	 *
 	 * @param event
-	 * @throws IOException
 	 */
 	@FXML
-	public void volverMenu(ActionEvent event) throws IOException {
+	public void volverMenu(ActionEvent event) {
 
 		nav.verAccesoBBDD();
 		ConexionBBDD.close();
