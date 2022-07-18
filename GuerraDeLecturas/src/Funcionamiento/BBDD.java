@@ -176,9 +176,13 @@ public class BBDD extends Excel {
 		return false;
 	}
 	
+	/**
+	 * Nos devuelve el usuario de twitter que dimos al crear la base de datos.
+	 * @return
+	 */
 	public String usuarioTwitter()
 	{
-		String sentenciaSQL = "select usuarioTwitter from  prueba2.guerradelectura;";
+		String sentenciaSQL = "select usuarioTwitter FROM guerraDeLectura";
 		String usuarioTwitter = "";
 		Statement statement;
 		
@@ -193,7 +197,7 @@ public class BBDD extends Excel {
 			usuarioTwitter = rs.getString(1);
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			nav.alertaException(e.toString());
 		}
 		return usuarioTwitter;
 	}
