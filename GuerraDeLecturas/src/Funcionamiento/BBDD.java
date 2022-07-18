@@ -175,6 +175,28 @@ public class BBDD extends Excel {
 		}
 		return false;
 	}
+	
+	public String usuarioTwitter()
+	{
+		String sentenciaSQL = "select usuarioTwitter from  prueba2.guerradelectura;";
+		String usuarioTwitter = "";
+		Statement statement;
+		
+		try {
+			Connection conn =ConexionBBDD.conexion();
+
+			statement = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs = statement.executeQuery(sentenciaSQL);
+			
+			rs.next();
+			
+			usuarioTwitter = rs.getString(1);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return usuarioTwitter;
+	}
 
 	/**
 	 * Funcion que permite crear tanto un fichero XLSX cini un fichero CSV
@@ -189,10 +211,13 @@ public class BBDD extends Excel {
 		Row fila;
 		Sheet hoja;
 		Workbook libro;
-		String encabezado;
+		String encabezado,usuario;
 
 		String[] encabezados = { "ID", "nomComic", "numComic", "nomEditorial", "formato", "procedencia", "fechaLectura",
-				"totalLeido" };
+				"totalLeido","usuarioTwitter" };
+		
+		usuario = usuarioTwitter();
+		
 		int indiceFila = 0;
 
 		try {
@@ -223,6 +248,7 @@ public class BBDD extends Excel {
 				fila.createCell(5).setCellValue(comic.getProcedencia());
 				fila.createCell(6).setCellValue(comic.getFecha());
 				fila.createCell(7).setCellValue(comic.getTotalLeido());
+				fila.createCell(8).setCellValue(usuario);
 
 				indiceFila++;
 			}
