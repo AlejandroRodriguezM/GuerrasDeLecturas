@@ -54,6 +54,9 @@ public class CrearBBDDController {
 	private TextField userBBDD;
 
 	@FXML
+	private TextField nombreTwitter;
+
+	@FXML
 	private TextField puertoBBDD;
 
 	@FXML
@@ -79,8 +82,6 @@ public class CrearBBDDController {
 			createDataBase();
 			createTable();
 			createProcedure();
-			prontInformativo.setStyle("-fx-background-color: #A0F52D");
-			prontInformativo.setText("Base de datos: " + nombreBBDD.getText() + " creada correctamente.");
 		}
 	}
 
@@ -148,29 +149,41 @@ public class CrearBBDDController {
 	public void createTable() {
 
 		String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + puertoBBDD.getText() + "/" + nombreBBDD.getText()
-				+ "?serverTimezone=UTC";
+		+ "?serverTimezone=UTC";
+
+		String nombreTw = nombreTwitter.getText();
 
 		String sentenciaSQL = "CREATE TABLE " + " guerraDeLectura ( ID int NOT NULL AUTO_INCREMENT,"
 				+ "nomComic varchar(150) NOT NULL," + "numComic varchar(150) NOT NULL,"
 				+ "nomEditorial varchar(150) NOT NULL," + "formato varchar(150) NOT NULL,"
 				+ "procedencia varchar(150) NOT NULL," + "fechaLectura varchar(150) NOT NULL,"
-				+ "totalLeido varchar(300) NOT NULL," + "PRIMARY KEY (`ID`)) "
+				+ "totalLeido varchar(300) NOT NULL," + "usuarioTwitter varchar(150) DEFAULT '" + nombreTw + "',"
+				+ "PRIMARY KEY (`ID`)) "
 				+ "ENGINE=InnoDB AUTO_INCREMENT=320 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;";
 
 		Statement statement1;
 		PreparedStatement statement2;
 
 		try {
-			Connection connection = DriverManager.getConnection(DB_URL, userBBDD.getText(), passBBDD.getText());
-			statement1 = connection.createStatement();
-			statement1.executeUpdate(sentenciaSQL);
-			statement2 = connection.prepareStatement("alter table guerraDeLectura AUTO_INCREMENT = 1;");
-			statement2.executeUpdate();
+			if(nombreTw.length() != 0)
+			{
+				Connection connection = DriverManager.getConnection(DB_URL, userBBDD.getText(), passBBDD.getText());
+				statement1 = connection.createStatement();
+				statement1.executeUpdate(sentenciaSQL);
+				statement2 = connection.prepareStatement("alter table guerraDeLectura AUTO_INCREMENT = 1;");
+				statement2.executeUpdate();
+			}
+			else
+			{
+				nav.alertaException("Debes de ingresar tu usuario de twitter");
+				nombreTwitter.setStyle("-fx-background-color: blue");
+				prontInformativo.setText("Escribe tu usuario de twitter");
+			}
 
 		} catch (SQLException e) {
 			nav.alertaException(e.toString());
 		}
-	}
+	}	
 
 	/**
 	 * Funcion que realiza la creacion de procedimientos almacenados.
@@ -178,29 +191,50 @@ public class CrearBBDDController {
 	public void createProcedure() {
 
 		String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + puertoBBDD.getText() + "/" + nombreBBDD.getText()
-				+ "?serverTimezone=UTC";
+		+ "?serverTimezone=UTC";
 
+		String nombreTw = nombreTwitter.getText();
+		
 		try {
-			Connection connection = DriverManager.getConnection(DB_URL, userBBDD.getText(), passBBDD.getText());
+			
 			Statement statement;
 
+			Connection connection = DriverManager.getConnection(DB_URL, userBBDD.getText(), passBBDD.getText());
+			
 			statement = connection.createStatement();
+			
+			if(nombreTw.length() != 0)
+			{
+				
+				// Creacion de diferentes procesos almacenados
+				statement.execute("CREATE PROCEDURE numeroGrapas()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura\n"
+						+ "WHERE Formato = 'Grapa';\n" + "END");
 
-			// Creacion de diferentes procesos almacenados
-			statement.execute("CREATE PROCEDURE numeroGrapas()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura\n"
-					+ "WHERE Formato = 'Grapa';\n" + "END");
+				statement.execute("CREATE PROCEDURE numeroTomos()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura\n"
+						+ "WHERE Formato = 'Tomo';\n" + "END");
 
-			statement.execute("CREATE PROCEDURE numeroTomos()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura\n"
-					+ "WHERE Formato = 'Tomo';\n" + "END");
+				statement.execute("CREATE PROCEDURE numeroUSA()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura\n"
+						+ "WHERE Procedencia = 'USA';\n" + "END");
 
-			statement.execute("CREATE PROCEDURE numeroUSA()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura\n"
-					+ "WHERE Procedencia = 'USA';\n" + "END");
+				statement.execute("CREATE PROCEDURE numeroSpain()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura\n"
+						+ "WHERE Procedencia = 'Espa�a';\n" + "END");
 
-			statement.execute("CREATE PROCEDURE numeroSpain()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura\n"
-					+ "WHERE Procedencia = 'Espa�a';\n" + "END");
-
-			statement.execute("CREATE PROCEDURE total()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura;\n" + "END");
-
+				statement.execute(
+						"CREATE PROCEDURE total()\n" + "BEGIN\n" + "SELECT COUNT(*) FROM guerraDeLectura;\n" + "END");
+				
+				nombreTwitter.setStyle("-fx-background-color: white");
+				
+				prontInformativo.setStyle("-fx-background-color: green");
+				prontInformativo.setText("Base de datos: " + nombreBBDD.getText() + " creada correctamente.");
+			}
+			else
+			{
+				String sql = "DROP DATABASE " + nombreBBDD.getText() + ";";
+				statement.executeUpdate(sql);
+				prontInformativo.setText("ERROR. Base de datos: " + nombreBBDD.getText() + " no creada.");
+				
+			}
+			
 		} catch (SQLException e) {
 			nav.alertaException(e.toString());
 		}
