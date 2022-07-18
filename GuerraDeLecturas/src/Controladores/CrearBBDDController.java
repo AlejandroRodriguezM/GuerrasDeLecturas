@@ -224,13 +224,14 @@ public class CrearBBDDController {
 				
 				nombreTwitter.setStyle("-fx-background-color: white");
 				
-				prontInformativo.setStyle("-fx-background-color: green");
+				prontInformativo.setStyle("-fx-background-color: #A0F52D");
 				prontInformativo.setText("Base de datos: " + nombreBBDD.getText() + " creada correctamente.");
 			}
 			else
 			{
 				String sql = "DROP DATABASE " + nombreBBDD.getText() + ";";
 				statement.executeUpdate(sql);
+				prontInformativo.setStyle("-fx-background-color: #DD370F");
 				prontInformativo.setText("ERROR. Base de datos: " + nombreBBDD.getText() + " no creada.");
 				
 			}
