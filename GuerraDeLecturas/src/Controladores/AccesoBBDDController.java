@@ -97,10 +97,10 @@ public class AccesoBBDDController {
 		String url = "https://github.com/MisterioRojo";
 
 		if (Utilidades.isWindows()) {
-			accesoWebWindows(url); //Llamada a funcion
+			accesoWebWindows(url); // Llamada a funcion
 		} else {
 			if (Utilidades.isUnix()) {
-				accesoWebLinux(url); //Llamada a funcion
+				accesoWebLinux(url); // Llamada a funcion
 			} else {
 				// No creada funcion para mac
 			}
@@ -120,16 +120,16 @@ public class AccesoBBDDController {
 		String url4 = "https://twitter.com/Gazapo02";
 
 		if (Utilidades.isWindows()) {
-			accesoWebWindows(url1); //Llamada a funcion
-			accesoWebWindows(url2); //Llamada a funcion
-			accesoWebWindows(url3); //Llamada a funcion
-			accesoWebWindows(url4); //Llamada a funcion
+			accesoWebWindows(url1); // Llamada a funcion
+			accesoWebWindows(url2); // Llamada a funcion
+			accesoWebWindows(url3); // Llamada a funcion
+			accesoWebWindows(url4); // Llamada a funcion
 		} else {
 			if (Utilidades.isUnix()) {
-				accesoWebLinux(url1); //Llamada a funcion
-				accesoWebLinux(url2); //Llamada a funcion
-				accesoWebLinux(url3); //Llamada a funcion
-				accesoWebLinux(url4); //Llamada a funcion
+				accesoWebLinux(url1); // Llamada a funcion
+				accesoWebLinux(url2); // Llamada a funcion
+				accesoWebLinux(url3); // Llamada a funcion
+				accesoWebLinux(url4); // Llamada a funcion
 			} else {
 				// No creada funcion para mac
 			}
@@ -147,35 +147,37 @@ public class AccesoBBDDController {
 			nav.alertaException("Error: No funciona el boton \n" + e.toString());
 		}
 	}
-	
+
 	/**
 	 * Funcion que permite abrir navegador y pagina web de GitHub en Linux
+	 * 
 	 * @param url
 	 */
 	public void accesoWebLinux(String url) {
 		Runtime rt = Runtime.getRuntime();
 
 		StringBuffer cmd = navegadores(url);
-		
+
 		try {
-			rt.exec(new String[] { "sh", "-c", cmd.toString() }); //Ejecuta el bucle y permite abrir el navegador que tengas principal
+			rt.exec(new String[] { "sh", "-c", cmd.toString() }); // Ejecuta el bucle y permite abrir el navegador que
+																	// tengas principal
 		} catch (IOException e) {
 			nav.alertaException("Error: No funciona el boton \n" + e.toString());
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param url
 	 * @return
 	 */
-	public StringBuffer navegadores(String url)
-	{
+	public StringBuffer navegadores(String url) {
 		String[] browsers = { "google-chrome", "firefox", "mozilla", "epiphany", "konqueror", "netscape", "opera",
 				"links", "lynx" };
-		
+
 		StringBuffer cmd = new StringBuffer();
-		for (int i = 0; i < browsers.length; i++) { //Bucle que permite comprobar que navegador tienes como principal y lo abre.
+		for (int i = 0; i < browsers.length; i++) { // Bucle que permite comprobar que navegador tienes como principal y
+													// lo abre.
 			if (i == 0) {
 				cmd.append(String.format("%s \"%s\"", browsers[i], url));
 			} else {
@@ -184,7 +186,6 @@ public class AccesoBBDDController {
 		}
 		return cmd;
 	}
-
 
 	/**
 	 *
@@ -225,6 +226,7 @@ public class AccesoBBDDController {
 
 	/**
 	 * Permite ver las bases de datos disponibles en MySql workbench
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -233,11 +235,11 @@ public class AccesoBBDDController {
 		String url1 = "https://dev.mysql.com/downloads/windows/installer/8.0.html";
 
 		if (Utilidades.isWindows()) {
-			accesoWebWindows(url1); //Llamada a funcion
+			accesoWebWindows(url1); // Llamada a funcion
 
 		} else {
 			if (Utilidades.isUnix()) {
-				accesoWebLinux(url1); //Llamada a funcion
+				accesoWebLinux(url1); // Llamada a funcion
 
 			} else {
 				// No creada funcion para mac
@@ -247,6 +249,7 @@ public class AccesoBBDDController {
 
 	/**
 	 * Se ve informacion en el TextArea.
+	 * 
 	 * @param event
 	 */
 	@FXML

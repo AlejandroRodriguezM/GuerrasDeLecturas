@@ -8,13 +8,13 @@ package Funcionamiento;
  * un fichero .txt y .xlsx,CSV - Copia de seguridad de la base de datos en
  * formato .sql - Introducir comics a la base de datos.
  *
- *  Esta clase permite dar formato a un fichero XLSX y CSV
+ * Esta clase permite dar formato a un fichero XLSX y CSV
  *
- *  Version Final
+ * Version Final
  *
- *  Por Alejandro Rodriguez
+ * Por Alejandro Rodriguez
  *
- *  Twitter: @silverAlox
+ * Twitter: @silverAlox
  */
 
 public class Excel {
@@ -22,51 +22,40 @@ public class Excel {
 	private String id;
 	private String nombre;
 	private String numero;
-	private String variante;
-	private String firma;
 	private String editorial;
 	private String formato;
 	private String procedencia;
 	private String fecha;
-	private String guionista;
-	private String dibujante;
-	private String estado;
+	private String nombreTwitter;
+	private String reto;
 
-	//Constructores
-	public Excel(String id, String nombre, String numero, String variante, String firma, String editorial,
-			String formato, String procedencia, String fecha, String guionista, String dibujante, String estado) {
+	public Excel(String id, String nombre, String numero, String editorial, String formato, String procedencia,
+			String fecha, String nombreTwitter, String reto) {
 		this.id = id;
 		this.nombre = nombre;
 		this.numero = numero;
-		this.variante = variante;
-		this.firma = firma;
 		this.editorial = editorial;
 		this.formato = formato;
 		this.procedencia = procedencia;
 		this.fecha = fecha;
-		this.guionista = guionista;
-		this.dibujante = dibujante;
-		this.estado = estado;
+		this.nombreTwitter = nombreTwitter;
+		this.reto = reto;
 	}
 
 	public Excel() {
-		super();
 		this.id = "";
 		this.nombre = "";
 		this.numero = "";
-		this.variante = "";
-		this.firma = "";
 		this.editorial = "";
 		this.formato = "";
 		this.procedencia = "";
 		this.fecha = "";
-		this.guionista = "";
-		this.dibujante = "";
-		this.estado = "";
+		this.nombreTwitter = "";
+		this.reto = "";
 	}
 
-	//Getters y setters
-	
+	// Getters y setters
+
 	public String getId() {
 		return id;
 	}
@@ -89,22 +78,6 @@ public class Excel {
 
 	public void setNumero(String numero) {
 		this.numero = numero;
-	}
-
-	public String getVariante() {
-		return variante;
-	}
-
-	public void setVariante(String variante) {
-		this.variante = variante;
-	}
-
-	public String getFirma() {
-		return firma;
-	}
-
-	public void setFirma(String firma) {
-		this.firma = firma;
 	}
 
 	public String getEditorial() {
@@ -139,34 +112,25 @@ public class Excel {
 		this.fecha = fecha;
 	}
 
-	public String getGuionista() {
-		return guionista;
+	public String getNombreTwitter() {
+		return nombreTwitter;
 	}
 
-	public void setGuionista(String guionista) {
-		this.guionista = guionista;
+	public void setNombreTwitter(String nombreTwitter) {
+		this.nombreTwitter = nombreTwitter;
 	}
 
-	public String getDibujante() {
-		return dibujante;
+	public String getReto() {
+		return reto;
 	}
 
-	public void setDibujante(String dibujante) {
-		this.dibujante = dibujante;
-	}
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
+	public void setReto(String reto) {
+		this.reto = reto;
 	}
 
 	@Override
 	public String toString() {
-		return "\nNombre: " + nombre + "\nNumero: " + numero + "\nVariante: " + variante + "\nFirma: " + firma
-				+ "\nEditorial: " + editorial + "\nFormato: " + formato + "\nProcedencia: " + procedencia + "\nFecha: "
-				+ fecha + "\nGuionista: " + guionista + "\nDibujante: " + dibujante + "\nEstado: " + estado;
+		return "\nNombre: " + nombre + "\nNumero: " + numero + "\nEditorial: " + editorial + "\nFormato: " + formato
+				+ "\nProcedencia: " + procedencia + "\nFecha: " + fecha;
 	}
 }

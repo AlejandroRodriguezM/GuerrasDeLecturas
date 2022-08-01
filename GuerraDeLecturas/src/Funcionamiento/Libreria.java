@@ -173,9 +173,11 @@ public class Libreria extends Comic {
 					this.procedencia = rs.getString("procedencia");
 					this.fecha = rs.getString("fechaLectura");
 					this.totalLeido = rs.getString("totalLeido");
+					this.usuarioTwitter = rs.getString("usuarioTwitter");
+					this.reto = rs.getString("reto");
 
 					listaComics.add(new Comic(this.ID, this.nombre, this.numero, this.editorial, this.formato,
-							this.procedencia, this.fecha, this.totalLeido));
+							this.procedencia, this.fecha, this.totalLeido, this.usuarioTwitter, this.reto));
 
 				} while (rs.next());
 			}
@@ -206,9 +208,11 @@ public class Libreria extends Comic {
 					this.procedencia = rs.getString("procedencia");
 					this.fecha = rs.getString("fechaLectura");
 					this.totalLeido = rs.getString("totalLeido");
+					this.usuarioTwitter = rs.getString("usuarioTwitter");
+					this.reto = rs.getString("reto");
 
 					comic = new Comic(this.ID, this.nombre, this.numero, this.editorial, this.formato, this.procedencia,
-							this.fecha, this.totalLeido);
+							this.fecha, this.totalLeido, this.usuarioTwitter, this.reto);
 
 				} while (rs.next());
 			}

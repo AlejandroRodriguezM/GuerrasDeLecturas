@@ -145,7 +145,6 @@ public class NavegacionVentanas {
 		}
 	}
 
-
 	/**
 	 * Llamada a ventana para el acceso a creacion de bases de datos
 	 */
@@ -188,6 +187,7 @@ public class NavegacionVentanas {
 
 	/**
 	 * Permite salir del programa completamente
+	 * 
 	 * @param event
 	 * @return
 	 */
@@ -210,6 +210,7 @@ public class NavegacionVentanas {
 
 	/**
 	 * Llama a una ventana de alarma para eliminar datos
+	 * 
 	 * @return
 	 */
 	public boolean alertaEliminar() {
@@ -229,6 +230,7 @@ public class NavegacionVentanas {
 
 	/**
 	 * Llama a una ventana de alarma que avisa si se va a modificar un dato
+	 * 
 	 * @return
 	 */
 	public boolean alertaModificar() {
@@ -247,6 +249,7 @@ public class NavegacionVentanas {
 
 	/**
 	 * Llama a una ventana de alarma que avisa si se va a introducir un dato
+	 * 
 	 * @return
 	 */
 	public boolean alertaInsertar() {
@@ -265,6 +268,7 @@ public class NavegacionVentanas {
 
 	/**
 	 * Llama a una ventana de alarma que avisa si hay una excepcion.
+	 * 
 	 * @param excepcion
 	 */
 	public void alertaException(String excepcion) {

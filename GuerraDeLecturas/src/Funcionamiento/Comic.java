@@ -8,13 +8,13 @@ package Funcionamiento;
  * un fichero .txt y .xlsx,CSV - Copia de seguridad de la base de datos en
  * formato .sql - Introducir comics a la base de datos.
  *
- *  Esta clase permite darle forma a un comic
+ * Esta clase permite darle forma a un comic
  *
- *  Version Final
+ * Version Final
  *
- *  Por Alejandro Rodriguez
+ * Por Alejandro Rodriguez
  *
- *  Twitter: @silverAlox
+ * Twitter: @silverAlox
  */
 
 public class Comic {
@@ -27,11 +27,14 @@ public class Comic {
 	protected String procedencia;
 	protected String fecha;
 	protected String totalLeido;
+	protected String usuarioTwitter;
+	protected String reto;
 
 	// Constructor
-	public Comic(String ID, String nombre, String numero, String editorial, String formato, String procedencia,
-			String fecha, String totalLeido) {
-		this.ID = ID;
+	public Comic(String iD, String nombre, String numero, String editorial, String formato, String procedencia,
+			String fecha, String totalLeido, String usuarioTwitter, String reto) {
+		super();
+		ID = iD;
 		this.nombre = nombre;
 		this.numero = numero;
 		this.editorial = editorial;
@@ -39,7 +42,8 @@ public class Comic {
 		this.procedencia = procedencia;
 		this.fecha = fecha;
 		this.totalLeido = totalLeido;
-
+		this.usuarioTwitter = usuarioTwitter;
+		this.reto = reto;
 	}
 
 	// Constructor
@@ -52,7 +56,8 @@ public class Comic {
 		this.procedencia = "";
 		this.fecha = "";
 		this.totalLeido = "";
-
+		this.usuarioTwitter = "";
+		this.reto = "";
 	}
 
 	// Getters y setters
@@ -89,6 +94,14 @@ public class Comic {
 		return totalLeido;
 	}
 
+	public String getUsuarioTwitter() {
+		return usuarioTwitter;
+	}
+
+	public String getReto() {
+		return reto;
+	}
+
 	public void setID(String ID) {
 		this.ID = ID;
 	}
@@ -119,6 +132,14 @@ public class Comic {
 
 	public void setTotalLeido(String totalLeido) {
 		this.totalLeido = totalLeido;
+	}
+
+	public void setUsuarioTwitter(String usuarioTwitter) {
+		this.usuarioTwitter = usuarioTwitter;
+	}
+
+	public void setReto(String reto) {
+		this.reto = reto;
 	}
 
 	@Override

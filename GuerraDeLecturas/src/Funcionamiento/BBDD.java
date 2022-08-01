@@ -61,8 +61,8 @@ public class BBDD extends Excel {
 	 * @return
 	 */
 	public boolean importarCSV(File fichero) {
-		String sql = "INSERT INTO guerraDeLectura(ID, nomComic, numComic, nomEditorial, formato,procedencia, fechaLectura, totalLeido)"
-				+ " values (?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO guerraDeLectura(ID, nomComic, numComic, nomEditorial, formato,procedencia, fechaLectura, totalLeido,usuarioTwitter,reto)"
+				+ " values (?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -84,6 +84,8 @@ public class BBDD extends Excel {
 				String procedencia = data[5];
 				String fechaLectura = data[6];
 				String totalLeido = data[7];
+				String usuarioTwitter = data[8];
+				String reto = data[9];
 
 				statement.setString(1, id);
 				statement.setString(2, nombre);
@@ -93,6 +95,8 @@ public class BBDD extends Excel {
 				statement.setString(6, procedencia);
 				statement.setString(7, fechaLectura);
 				statement.setString(8, totalLeido);
+				statement.setString(9, usuarioTwitter);
+				statement.setString(10, reto);
 
 				statement.addBatch();
 
@@ -106,6 +110,7 @@ public class BBDD extends Excel {
 			return true;
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			nav.alertaException(e.toString());
 		}
 		return false;
@@ -117,7 +122,7 @@ public class BBDD extends Excel {
 	 * @return
 	 */
 	public int countRows() {
-		String sql = "SELECT COUNT(*) FROM guerraDeLectura";
+		String sql = "SELECT COUNT(*) FROM guerradelectura";
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
@@ -175,27 +180,26 @@ public class BBDD extends Excel {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Nos devuelve el usuario de twitter que dimos al crear la base de datos.
+	 * 
 	 * @return
 	 */
-	public String usuarioTwitter()
-	{
-		String sentenciaSQL = "select usuarioTwitter FROM guerraDeLectura";
+	public String usuarioTwitter() {
+		String sentenciaSQL = "select usuarioTwitter FROM guerradelectura";
 		String usuarioTwitter = "";
 		Statement statement;
-		
+
 		try {
-			Connection conn =ConexionBBDD.conexion();
+			Connection conn = ConexionBBDD.conexion();
 
 			statement = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			ResultSet rs = statement.executeQuery(sentenciaSQL);
-			
-			rs.next();
-			
-			usuarioTwitter = rs.getString(1);
-			
+			do {
+				usuarioTwitter = rs.getString(1);
+			} while (rs.next());
+
 		} catch (SQLException e) {
 			nav.alertaException(e.toString());
 		}
@@ -215,13 +219,11 @@ public class BBDD extends Excel {
 		Row fila;
 		Sheet hoja;
 		Workbook libro;
-		String encabezado,usuario;
+		String encabezado;
 
 		String[] encabezados = { "ID", "nomComic", "numComic", "nomEditorial", "formato", "procedencia", "fechaLectura",
-				"totalLeido","usuarioTwitter" };
-		
-		usuario = usuarioTwitter();
-		
+				"totalLeido", "usuarioTwitter", "reto" };
+
 		int indiceFila = 0;
 
 		try {
@@ -252,7 +254,8 @@ public class BBDD extends Excel {
 				fila.createCell(5).setCellValue(comic.getProcedencia());
 				fila.createCell(6).setCellValue(comic.getFecha());
 				fila.createCell(7).setCellValue(comic.getTotalLeido());
-				fila.createCell(8).setCellValue(usuario);
+				fila.createCell(8).setCellValue(comic.getUsuarioTwitter());
+				fila.createCell(9).setCellValue(comic.getReto());
 
 				indiceFila++;
 			}
