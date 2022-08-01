@@ -205,8 +205,8 @@ public class IntroducirDatosController {
 	public void introducirDatos() {
 		ConexionBBDD.loadDriver();
 
-		String sentenciaSQL = "INSERT INTO guerraDeLectura(nomComic, numComic, nomEditorial, formato,procedencia, fechaLectura, totalLeido,usuarioTwitter, reto)"
-				+ " values (?,?,?,?,?,?,?,?,?)";
+		String sentenciaSQL = "INSERT INTO guerraDeLectura(nomComic, numComic, nomEditorial, formato,procedencia, fechaLectura, totalLeido, reto)"
+				+ " values (?,?,?,?,?,?,?,?)";
 
 		String datos[] = camposComicIntroducir();
 
@@ -228,8 +228,6 @@ public class IntroducirDatosController {
 			statement.setString(7, datos[6]);
 
 			statement.setString(8, datos[7]);
-			
-			statement.setString(9, datos[8]);
 
 			if (statement.executeUpdate() == 1) { // Sie el resultado del executeUpdate es 1, mostrara el mensaje
 													// correcto.
@@ -379,7 +377,7 @@ public class IntroducirDatosController {
 	 * @return
 	 */
 	public String[] camposComicIntroducir() {
-		String campos[] = new String[9];
+		String campos[] = new String[8];
 
 		campos[0] = nombreAni.getText();
 
@@ -395,9 +393,7 @@ public class IntroducirDatosController {
 
 		campos[6] = totalComicsAni.getText();
 		
-		campos[7] = db.usuarioTwitter();
-		
-		campos[8] = retoAni.getText();
+		campos[7] = retoAni.getText();
 		
 		return comaPorGuion(campos);
 	}
